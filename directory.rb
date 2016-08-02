@@ -18,7 +18,7 @@ end
 
 def certain_letter(students)
   puts "With which letter does the names you wish to search for begin?"
-  puts "To search for all names, just hit return twice."
+  puts "To search for all names, just hit return."
   initial = gets.chomp.upcase
   initial_students = students.select {|student| student[:name][0] == initial}
   initial_students != [] ? twelve_chars(initial_students) : twelve_chars(students)
@@ -38,8 +38,10 @@ end
 
 def print(students)
   print_header
-  students.each_with_index do |student, index|
-    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+  i = 0
+  while i < students.size
+     puts "#{i + 1}. #{students[i][:name]} (#{students[i][:cohort]} cohort)"
+     i += 1
   end
 end
 
