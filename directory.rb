@@ -6,28 +6,28 @@ def input_students
   #create an empty array
   students = []
   # get the first name
-  name = gets.chomp
+  name = gets.gsub(/\n/,"")
   # while the name is not empty, repeat this code
   while !name.empty? do
     puts "Please submit the following extra information for this student."
 
     puts "Which cohort is #{name} part of?"
-    cohort = gets.chomp.capitalize
+    cohort = gets.gsub(/\n/,"").capitalize
     if cohort == ""
       cohort = "August"
     else
       until Date::MONTHNAMES.include? cohort
         puts "Please enter a valid cohort."
-        cohort = gets.chomp.capitalize
+        cohort = gets.gsub(/\n/,"").capitalize
       end
     end
     cohort = cohort.to_sym
     puts "#{name}'s age:"
-    age = gets.chomp
+    age = gets.gsub(/\n/,"")
     puts "#{name}'s country of birth:"
-    birthcountry = gets.chomp
+    birthcountry = gets.gsub(/\n/,"")
     puts "#{name}'s hobbies:"
-    hobbies = gets.chomp
+    hobbies = gets.gsub(/\n/,"")
     students << {name: name, info: {cohort: cohort, age: age, birth_country: birthcountry, hobbies: hobbies}}
     if students.count == 1
       puts "Now we have #{students.count} student."
@@ -36,7 +36,7 @@ def input_students
     end
     # get another name from the user
     puts "Next name:"
-    name = gets.chomp
+    name = gets.gsub(/\n/,"")
   end
   students
 end
@@ -44,14 +44,14 @@ end
 def certain_letter(students)
   puts "With which letter does the names you wish to search for begin?"
   puts "To search for all names, just hit return."
-  initial = gets.chomp.upcase
+  initial = gets.gsub(/\n/,"").upcase
   initial_students = students.select {|student| student[:name][0] == initial}
   initial_students != [] ? twelve_chars(initial_students) : twelve_chars(students)
 end
 
 def twelve_chars(students)
   puts "Would you like to search only for students whose names are shorter than 12 characters? (Y/N)"
-  response = gets.chomp.upcase
+  response = gets.gsub(/\n/,"").upcase
   short_names = students.select {|student| student[:name].length < 12}
   response == "Y" ? print(short_names) : print(students)
 end
