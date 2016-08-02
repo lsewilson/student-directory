@@ -28,7 +28,6 @@ def input_students
     birthcountry = gets.chomp
     puts "#{name}'s hobbies:"
     hobbies = gets.chomp
-    puts cohort.class
     students << {name: name, info: {cohort: cohort, age: age, birth_country: birthcountry, hobbies: hobbies}}
     puts "Now we have #{students.count} students."
     # get another name from the user
@@ -60,10 +59,13 @@ end
 
 def print(students)
   print_header
-  i = 0
-  while i < students.size
-    puts "#{i + 1}. #{students[i][:name]} (#{students[i][:info][:cohort]} cohort)"
-    i += 1
+  cohort_months = students.map{|entry| entry[:info][:cohort]}.uniq
+  cohort_months.each do |month|
+    puts "#{month} cohort"
+    students.select{|student| student[:info][:cohort] == month
+    }.each_with_index do |student, i|
+      puts "#{i + 1}. #{student[:name]}"
+    end
   end
 end
 
