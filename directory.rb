@@ -41,10 +41,10 @@ def input_students
   students
 end
 
-def certain_letter(students)
+def filter(students)
   puts "With which letter does the names you wish to search for begin?"
   puts "To search for all names, just hit return."
-  initial = gets.gsub(/\n/,"").upcase
+  initial = gets.gsub(/\n/,"")
   initial_students = students.select {|student| student[:name][0] == initial}
   initial_students != [] ? twelve_chars(initial_students) : twelve_chars(students)
 end
@@ -57,18 +57,20 @@ def twelve_chars(students)
 end
 
 def print_header
-  puts "The students of my cohort at Makers Academy"
+  puts "The students of each cohort at Makers Academy"
   puts "-------------"
 end
 
 def print(students)
-  print_header
-  cohort_months = students.map{|entry| entry[:info][:cohort]}.uniq
-  cohort_months.each do |month|
-    puts "#{month} cohort"
-    students.select{|student| student[:info][:cohort] == month
-    }.each_with_index do |student, i|
-      puts "#{i + 1}. #{student[:name]}"
+  if students != []
+    print_header
+    cohort_months = students.map{|entry| entry[:info][:cohort]}.uniq
+    cohort_months.each do |month|
+      puts "#{month} cohort"
+      students.select{|student| student[:info][:cohort] == month
+      }.each_with_index do |student, i|
+        puts "#{i + 1}. #{student[:name]}"
+      end
     end
   end
 end
@@ -82,5 +84,5 @@ def print_footer(names)
 end
 # nothing happens until we call the methods
 students = input_students
-certain_letter(students)
+filter(students)
 print_footer(students)
