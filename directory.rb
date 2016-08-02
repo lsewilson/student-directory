@@ -57,19 +57,21 @@ def twelve_chars(students)
 end
 
 def print_header
-  puts "The students of each cohort at Makers Academy"
-  puts "-------------"
+  header = "The students of each cohort at Makers Academy"
+  puts header.center(header.length)
+  puts "-------------".center(header.length)
 end
 
 def print(students)
   if students != []
     print_header
+    # Map unique cohort months to a new array
     cohort_months = students.map{|entry| entry[:info][:cohort]}.uniq
+    # For each cohort, list students within cohort
     cohort_months.each do |month|
       puts "#{month} cohort"
-      students.select{|student| student[:info][:cohort] == month
-      }.each_with_index do |student, i|
-        puts "#{i + 1}. #{student[:name]}"
+      students.select{|student| student[:info][:cohort] == month}.each_with_index do
+        |student, i| puts "#{i + 1}. #{student[:name]}"
       end
     end
   end
