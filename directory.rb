@@ -1,3 +1,5 @@
+require 'Date'
+
 def input_students
   puts "Please enter the names of the students."
   puts "To finish, just hit return twice."
@@ -8,13 +10,26 @@ def input_students
   # while the name is not empty, repeat this code
   while !name.empty? do
     puts "Please submit the following extra information for this student."
+
+    puts "Which cohort is #{name} part of?"
+    cohort = gets.chomp.capitalize
+    if cohort == ""
+      cohort = "August"
+    else
+      until Date::MONTHNAMES.include? cohort
+        puts "Please enter a valid cohort."
+        cohort = gets.chomp.capitalize
+      end
+    end
+    cohort = cohort.to_sym
     puts "#{name}'s age:"
     age = gets.chomp
     puts "#{name}'s country of birth:"
     birthcountry = gets.chomp
     puts "#{name}'s hobbies:"
     hobbies = gets.chomp
-    students << {name: name, info: {cohort: :August, age: age, birth_country: birthcountry, hobbies: hobbies}}
+    puts cohort.class
+    students << {name: name, info: {cohort: cohort, age: age, birth_country: birthcountry, hobbies: hobbies}}
     puts "Now we have #{students.count} students."
     # get another name from the user
     puts "Next name:"
@@ -22,9 +37,6 @@ def input_students
   end
   students
 end
-
-
-
 
 def certain_letter(students)
   puts "With which letter does the names you wish to search for begin?"
@@ -50,8 +62,8 @@ def print(students)
   print_header
   i = 0
   while i < students.size
-     puts "#{i + 1}. #{students[i][:name]} (#{students[i][:info][:cohort]} cohort)"
-     i += 1
+    puts "#{i + 1}. #{students[i][:name]} (#{students[i][:info][:cohort]} cohort)"
+    i += 1
   end
 end
 
