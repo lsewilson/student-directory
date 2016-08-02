@@ -29,7 +29,11 @@ def input_students
     puts "#{name}'s hobbies:"
     hobbies = gets.chomp
     students << {name: name, info: {cohort: cohort, age: age, birth_country: birthcountry, hobbies: hobbies}}
-    puts "Now we have #{students.count} students."
+    if students.count == 1
+      puts "Now we have #{students.count} student."
+    else
+      puts "Now we have #{students.count} students."
+    end
     # get another name from the user
     puts "Next name:"
     name = gets.chomp
@@ -70,7 +74,11 @@ def print(students)
 end
 
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students."
+  if names.count == 1
+    puts "Overall, we have #{names.count} great student."
+  else
+    puts "Overall, we have #{names.count} great students."
+  end
 end
 # nothing happens until we call the methods
 students = input_students
