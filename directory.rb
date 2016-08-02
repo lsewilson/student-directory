@@ -7,14 +7,24 @@ def input_students
   name = gets.chomp
   # while the name is not empty, repeat this code
   while !name.empty? do
-    students << {name: name, cohort: :August}
+    puts "Please submit the following extra information for this student."
+    puts "#{name}'s age:"
+    age = gets.chomp
+    puts "#{name}'s country of birth:"
+    birthcountry = gets.chomp
+    puts "#{name}'s hobbies:"
+    hobbies = gets.chomp
+    students << {name: name, info: {cohort: :August, age: age, birth_country: birthcountry, hobbies: hobbies}}
     puts "Now we have #{students.count} students."
     # get another name from the user
+    puts "Next name:"
     name = gets.chomp
   end
-  # return the array of students
   students
 end
+
+
+
 
 def certain_letter(students)
   puts "With which letter does the names you wish to search for begin?"
@@ -40,7 +50,7 @@ def print(students)
   print_header
   i = 0
   while i < students.size
-     puts "#{i + 1}. #{students[i][:name]} (#{students[i][:cohort]} cohort)"
+     puts "#{i + 1}. #{students[i][:name]} (#{students[i][:info][:cohort]} cohort)"
      i += 1
   end
 end
