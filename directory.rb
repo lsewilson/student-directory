@@ -41,8 +41,6 @@ def input_students
   name = STDIN.gets.chomp
   # while the name is not empty, repeat this code
   while !name.empty? do
-    puts "Please submit the following extra information for this student."
-
     puts "Which cohort is #{name} part of?"
     cohort = STDIN.gets.chomp.capitalize
     if cohort == ""
@@ -53,14 +51,7 @@ def input_students
         cohort = STDIN.gets.chomp.capitalize
       end
     end
-    cohort = cohort.to_sym
-    puts "#{name}'s age:"
-    age = STDIN.gets.chomp
-    puts "#{name}'s country of birth:"
-    birthcountry = STDIN.gets.chomp
-    puts "#{name}'s hobbies:"
-    hobbies = STDIN.gets.chomp
-    @students << {name: name, info: {cohort: cohort, age: age, birth_country: birthcountry, hobbies: hobbies}}
+    add_info_to_array(name, cohort)
     if @students.count == 1
       puts "Now we have #{@students.count} student."
     else
@@ -70,6 +61,10 @@ def input_students
     puts "Next name:"
     name = STDIN.gets.chomp
   end
+end
+
+def add_info_to_array(name, cohort)
+  @students << {name: name, cohort: cohort.to_sym}
 end
 
 def show_students
@@ -87,11 +82,11 @@ end
 def print
   if @students != []
     # Map unique cohort months to a new array
-    cohort_months = @students.map{|entry| entry[:info][:cohort]}.uniq
+    cohort_months = @students.map{|entry| entry[:cohort]}.uniq
     # For each cohort, list students within cohort
     cohort_months.each do |month|
       puts "#{month} cohort"
-      @students.select{|student| student[:info][:cohort] == month}.each_with_index do
+        @students.select{|student| student[:cohort] == month}.each_with_index do
         |student, i| puts "#{i + 1}. #{student[:name]}"
       end
     end
@@ -120,7 +115,7 @@ def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
   name, cohort = line.chomp.split(',')
-    @students << {name: name, info: {cohort: cohort.to_sym}}
+    add_info_to_array(name, cohort)
   end
   file.close
 end
@@ -135,27 +130,6 @@ def try_load_students
     puts "Sorry, #{filename} doesn't exist."
     exit
   end
-end
-
-# Deactivated method - no longer compatible with other methods
-def filter(students)
-  puts "With which letter does the names you wish to search for begin?"
-  puts "To search for all names, just hit return."
-  initial = gets.chomp
-  if initial == ""
-    students
-  else
-    initial_students = students.select {|student| student[:name][0] == initial}
-    initial_students != [] ? twelve_chars(initial_students) : twelve_chars(students)
-  end
-end
-
-# Deactivated method - no longer compatible with other methods
-def twelve_chars(students)
-  puts "Would you like to search only for students whose names are shorter than 12 characters? (Y/N)"
-  response = gets.chomp.upcase
-  short_names = students.select {|student| student[:name].length < 12}
-  response == "Y" ? print(short_names) : print(students)
 end
 
 try_load_students
