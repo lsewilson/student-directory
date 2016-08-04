@@ -7,6 +7,7 @@ def print_menu
   puts "2. Show the students"
   puts "3. Save student list"
   puts "4. Load student list"
+  puts "5. Print source code"
   puts "9. Exit"
 end
 
@@ -31,6 +32,8 @@ def process(selection)
       puts "What file do you want to load?"
       filename = STDIN.gets.chomp
       load_students(filename)
+    when "5"
+      print_source_code
     when "9"
       puts "Program ended."
       exit
@@ -137,6 +140,10 @@ def try_load_students
     puts "Sorry, #{filename} doesn't exist."
     exit
   end
+end
+
+def print_source_code
+  puts "Current file:     #{$0}"
 end
 
 try_load_students
