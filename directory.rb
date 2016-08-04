@@ -1,4 +1,5 @@
 require 'Date'
+require 'csv'
 
 @students = []
 
@@ -143,7 +144,7 @@ def try_load_students
 end
 
 def print_source_code
-  puts "Current file:     #{$0}"
+  puts "Current file:     #{__FILE__}"
 end
 
 try_load_students
