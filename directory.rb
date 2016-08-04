@@ -5,7 +5,8 @@ require 'Date'
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
+  puts "3. Save student list"
+  puts "4. Load student list"
   puts "9. Exit"
 end
 
@@ -23,7 +24,13 @@ def process(selection)
     when "2"
       show_students
     when "3"
-      save_students
+      puts "What do you want to save the file as?"
+      filename = STDIN.gets.chomp
+      save_students(filename)
+    when "4"
+      puts "What file do you want to load?"
+      filename = STDIN.gets.chomp
+      load_students(filename)
     when "9"
       puts "Program ended."
       exit
@@ -99,18 +106,18 @@ def print_footer
   end
 end
 
-def save_students
-  file = File.open("students.csv", "w")
+def save_students(filename)
+  file = File.open(filename, "w")
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",")
     file.puts csv_line
   end
   file.close
-  puts "students.csv saved!"
+  puts "#{filename} saved!"
 end
 
-def load_students(filename = "students.csv")
+def load_students(filename)
   file = File.open(filename, "r")
   file.readlines.each do |line|
   name, cohort = line.chomp.split(',')
