@@ -37,29 +37,31 @@ end
 def input_students
   puts "Please enter the names of the students."
   puts "To finish, just hit return twice."
-  # get the first name
-  name = STDIN.gets.chomp
-  # while the name is not empty, repeat this code
-  while !name.empty? do
+  name = STDIN.gets.chomp   # get the first name
+  while !name.empty? do # while the name is not empty, repeat this code
     puts "Which cohort is #{name} part of?"
     cohort = STDIN.gets.chomp.capitalize
-    if cohort == ""
-      cohort = "August"
-    else
-      until Date::MONTHNAMES.include? cohort
-        puts "Please enter a valid cohort."
-        cohort = STDIN.gets.chomp.capitalize
-      end
-    end
+    cohort == "" ? cohort = "August" : cohort = valid_cohort(cohort)
     add_info_to_array(name, cohort)
-    if @students.count == 1
-      puts "Now we have #{@students.count} student."
-    else
-      puts "Now we have #{@students.count} students."
-    end
-    # get another name from the user
-    puts "Next name:"
+    student_count
+    puts "Next name:" # get another name from the user
     name = STDIN.gets.chomp
+  end
+end
+
+def valid_cohort(cohort)
+  until Date::MONTHNAMES.include? cohort
+    puts "Please enter a valid cohort."
+    cohort = STDIN.gets.chomp.capitalize
+  end
+  cohort
+end
+
+def student_count
+  if @students.count == 1
+    puts "Now we have #{@students.count} student."
+  else
+    puts "Now we have #{@students.count} students."
   end
 end
 
@@ -81,10 +83,8 @@ end
 
 def print
   if @students != []
-    # Map unique cohort months to a new array
-    cohort_months = @students.map{|entry| entry[:cohort]}.uniq
-    # For each cohort, list students within cohort
-    cohort_months.each do |month|
+    cohort_months = @students.map{|entry| entry[:cohort]}.uniq # Map unique cohort months to a new array
+    cohort_months.each do |month|     # For each cohort, list students within cohort
       puts "#{month} cohort"
         @students.select{|student| student[:cohort] == month}.each_with_index do
         |student, i| puts "#{i + 1}. #{student[:name]}"
@@ -104,7 +104,7 @@ end
 def save_students
   file = File.open("students.csv", "w")
   @students.each do |student|
-    student_data = [student[:name], student[:info][:cohort]]
+    student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",")
     file.puts csv_line
   end
