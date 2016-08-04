@@ -6,7 +6,6 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
   puts "9. Exit"
 end
 
@@ -25,9 +24,8 @@ def process(selection)
       show_students
     when "3"
       save_students
-    when "4"
-      load_students
     when "9"
+      puts "Program ended."
       exit
     else
       puts "I don't know what you meant, try again"
@@ -71,7 +69,7 @@ end
 
 def show_students
   print_header
-  print
+  print_students
   print_footer
 end
 
@@ -81,7 +79,7 @@ def print_header
   puts "-------------".center(header.length)
 end
 
-def print
+def print_students
   if @students != []
     cohort_months = @students.map{|entry| entry[:cohort]}.uniq # Map unique cohort months to a new array
     cohort_months.each do |month|     # For each cohort, list students within cohort
@@ -109,6 +107,7 @@ def save_students
     file.puts csv_line
   end
   file.close
+  puts "students.csv saved!"
 end
 
 def load_students(filename = "students.csv")
@@ -118,6 +117,7 @@ def load_students(filename = "students.csv")
     add_info_to_array(name, cohort)
   end
   file.close
+  puts "#{filename} loaded!"
 end
 
 def try_load_students
