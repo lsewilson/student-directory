@@ -138,7 +138,7 @@ def try_load_students
 end
 
 def print_source_code
-  puts "Current file:     #{__FILE__}"
+  puts File.read(__FILE__)
 end
 
 try_load_students
