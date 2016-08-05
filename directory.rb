@@ -1,8 +1,6 @@
 require 'Date'
 require 'csv'
 
-@students = []
-
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
@@ -111,22 +109,18 @@ def print_footer
 end
 
 def save_students(filename)
-  File.open(filename, "w") do |f|
+  CSV.open(filename, "w") do |csv|
     @students.each do |student|
-      student_data = [student[:name], student[:cohort]]
-      csv_line = student_data.join(",")
-      f.puts csv_line
+      csv << [student[:name], student[:cohort]]
     end
+    puts "#{filename} saved!"
   end
-  puts "#{filename} saved!"
 end
 
 def load_students(filename)
-  File.open(filename, "r") do |f|
-    f.readlines.each do |line|
-      name, cohort = line.chomp.split(',')
-      add_info_to_array(name, cohort)
-    end
+  @students = []
+  CSV.foreach(filename) do |row|
+    add_info_to_array(row[0], row[1])
   end
   puts "#{filename} loaded!"
 end
